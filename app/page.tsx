@@ -54,7 +54,7 @@ export default function Portfolio() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="font-mono text-lg font-bold text-primary">{"<CS_Portfolio />"}</div>
+          <div className="font-mono text-lg font-bold text-primary">{"wmalfian"}</div>
 
           <div className="hidden md:flex items-center space-x-8">
             {[
@@ -297,7 +297,7 @@ export default function Portfolio() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">student@university.edu</p>
+                    <p className="text-muted-foreground">s70315@ocean.umt.edu.my</p>
                   </CardContent>
                 </Card>
 
@@ -309,7 +309,7 @@ export default function Portfolio() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">github.com/yourusername</p>
+                    <p className="text-muted-foreground">github.com/wmalfian</p>
                   </CardContent>
                 </Card>
 
@@ -321,7 +321,7 @@ export default function Portfolio() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">linkedin.com/in/yourprofile</p>
+                    <p className="text-muted-foreground">linkedin.com/in/wmalfian</p>
                   </CardContent>
                 </Card>
               </div>
@@ -336,7 +336,7 @@ export default function Portfolio() {
       <footer className="border-t border-border py-8">
         <div className="container mx-auto px-4 text-center">
           <p className="text-muted-foreground">
-            © 2024 CS Portfolio. Built with Next.js, TypeScript, and Tailwind CSS.
+            © 2025 wmalfian Portfolio.
           </p>
         </div>
       </footer>
