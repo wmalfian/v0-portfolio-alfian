@@ -46,7 +46,14 @@ export default function Portfolio() {
   }, [])
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
+    const element = document.getElementById(sectionId)
+    if (element) {
+      const offsetTop = element.offsetTop - 80 // Account for fixed nav height
+      window.scrollTo({
+        top: offsetTop,
+        behavior: "smooth",
+      })
+    }
   }
 
   return (
@@ -54,7 +61,12 @@ export default function Portfolio() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="font-mono text-lg font-bold text-primary">{"wmalfian"}</div>
+          <div
+            className="font-mono text-lg font-bold text-primary cursor-pointer"
+            onClick={() => scrollToSection("hero")}
+          >
+            {"wmalfian"}
+          </div>
 
           <div className="hidden md:flex items-center space-x-8">
             {[
@@ -67,11 +79,14 @@ export default function Portfolio() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`text-sm font-medium transition-all duration-300 hover:text-primary hover:scale-105 relative ${
                   activeSection === item.id ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {item.label}
+                {activeSection === item.id && (
+                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"></div>
+                )}
               </button>
             ))}
           </div>
@@ -130,30 +145,42 @@ export default function Portfolio() {
                 variant="ghost"
                 size="icon"
                 className="hover:text-primary hover:scale-110 transition-all duration-300"
+                asChild
               >
-                <Github className="w-5 h-5" />
+                <a href="https://github.com/wmalfian" target="_blank" rel="noopener noreferrer">
+                  <Github className="w-5 h-5" />
+                </a>
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 className="hover:text-primary hover:scale-110 transition-all duration-300"
+                asChild
               >
-                <Linkedin className="w-5 h-5" />
+                <a href="https://linkedin.com/in/wmalfian" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="w-5 h-5" />
+                </a>
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 className="hover:text-primary hover:scale-110 transition-all duration-300"
+                asChild
               >
-                <Mail className="w-5 h-5" />
+                <a href="mailto:s70315@ocean.umt.edu.my">
+                  <Mail className="w-5 h-5" />
+                </a>
               </Button>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown className="w-6 h-6 text-muted-foreground" />
-        </div>
+        <button
+          onClick={() => scrollToSection("about")}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hover:text-primary transition-colors cursor-pointer"
+        >
+          <ChevronDown className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors" />
+        </button>
       </section>
 
       {/* About Section */}
@@ -297,7 +324,12 @@ export default function Portfolio() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">s70315@ocean.umt.edu.my</p>
+                    <a
+                      href="mailto:s70315@ocean.umt.edu.my"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      s70315@ocean.umt.edu.my
+                    </a>
                   </CardContent>
                 </Card>
 
@@ -309,7 +341,14 @@ export default function Portfolio() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">github.com/wmalfian</p>
+                    <a
+                      href="https://github.com/wmalfian"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      github.com/wmalfian
+                    </a>
                   </CardContent>
                 </Card>
 
@@ -321,7 +360,14 @@ export default function Portfolio() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">linkedin.com/in/wmalfian</p>
+                    <a
+                      href="https://linkedin.com/in/wmalfian"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      linkedin.com/in/wmalfian
+                    </a>
                   </CardContent>
                 </Card>
               </div>
@@ -335,9 +381,7 @@ export default function Portfolio() {
       {/* Footer */}
       <footer className="border-t border-border py-8">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-muted-foreground">
-            © 2025 wmalfian Portfolio.
-          </p>
+          <p className="text-muted-foreground">© 2025 wmalfian Portfolio.</p>
         </div>
       </footer>
     </div>
