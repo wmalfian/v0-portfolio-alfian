@@ -19,10 +19,13 @@ import {
   Terminal,
   ChevronDown,
   Download,
+  Menu,
+  X,
 } from "lucide-react"
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("hero")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,7 +57,16 @@ export default function Portfolio() {
         behavior: "smooth",
       })
     }
+    setMobileMenuOpen(false)
   }
+
+  const navItems = [
+    { id: "hero", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "projects", label: "Projects" },
+    { id: "skills", label: "Skills" },
+    { id: "contact", label: "Contact" },
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,14 +80,9 @@ export default function Portfolio() {
             {"wmalfian"}
           </div>
 
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {[
-              { id: "hero", label: "Home" },
-              { id: "about", label: "About" },
-              { id: "projects", label: "Projects" },
-              { id: "skills", label: "Skills" },
-              { id: "contact", label: "Contact" },
-            ].map((item) => (
+            {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
@@ -91,8 +98,38 @@ export default function Portfolio() {
             ))}
           </div>
 
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+          </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border">
+            <div className="container mx-auto px-4 py-4 space-y-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`block w-full text-left px-4 py-2 rounded-lg transition-colors ${
+                    activeSection === item.id
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -104,8 +141,8 @@ export default function Portfolio() {
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
-              <div className="mb-8">
-                <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 p-1 hover-lift">
+              <div className="mb-6 sm:mb-8">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 p-1 hover-lift">
                   <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                     <img
                       src="/professional-headshot-of-computer-science-student.jpg"
@@ -116,31 +153,35 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <div className="inline-block p-4 rounded-full bg-primary/10 mb-6 hover-lift">
-                <Code2 className="w-12 h-12 text-primary" />
+              <div className="inline-block p-3 sm:p-4 rounded-full bg-primary/10 mb-4 sm:mb-6 hover-lift">
+                <Code2 className="w-8 h-8 sm:w-12 sm:h-12 text-primary" />
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-balance">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-balance leading-tight">
                 Computer Science
                 <span className="text-primary block">Student & Developer</span>
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground mb-8 text-pretty">
+              <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-8 text-pretty px-4 sm:px-0">
                 Passionate about creating innovative solutions through clean code, advanced algorithms, and cutting-edge
                 technology.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" onClick={() => scrollToSection("projects")} className="group hover-lift">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4 sm:px-0">
+              <Button
+                size="lg"
+                onClick={() => scrollToSection("projects")}
+                className="group hover-lift w-full sm:w-auto"
+              >
                 View My Work
                 <ExternalLink className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button variant="outline" size="lg" className="group bg-transparent hover-lift">
+              <Button variant="outline" size="lg" className="group bg-transparent hover-lift w-full sm:w-auto">
                 <Download className="mr-2 w-4 h-4" />
                 Download Resume
               </Button>
             </div>
 
-            <div className="flex justify-center space-x-6">
+            <div className="flex justify-center space-x-4 sm:space-x-6">
               <Button
                 variant="ghost"
                 size="icon"
@@ -184,7 +225,7 @@ export default function Portfolio() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-muted/30 relative">
+      <section id="about" className="py-16 sm:py-20 bg-muted/30 relative">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 w-20 h-20 border border-primary rounded-full"></div>
           <div className="absolute top-40 right-20 w-16 h-16 border border-secondary rounded-full"></div>
@@ -193,27 +234,27 @@ export default function Portfolio() {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
               About <span className="text-primary">Me</span>
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="hover-lift">
-                <div className="w-64 h-64 mx-auto bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center relative overflow-hidden">
+            <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
+              <div className="hover-lift order-2 md:order-1">
+                <div className="w-48 h-48 sm:w-64 sm:h-64 mx-auto bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-2 bg-background rounded-full flex items-center justify-center">
-                    <Terminal className="w-24 h-24 text-primary" />
+                    <Terminal className="w-16 h-16 sm:w-24 sm:h-24 text-primary" />
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <p className="text-lg text-muted-foreground leading-relaxed">
+              <div className="space-y-4 sm:space-y-6 order-1 md:order-2">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                   I'm a dedicated Computer Science student with a passion for solving complex problems through elegant
                   code. My journey in programming started with curiosity and has evolved into a deep appreciation for
                   software architecture, algorithms, and system design.
                 </p>
 
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                   Currently pursuing my degree while working on challenging projects that span full-stack development,
                   machine learning, and distributed systems. I believe in writing clean, maintainable code and following
                   industry best practices.
@@ -224,7 +265,7 @@ export default function Portfolio() {
                     <Badge
                       key={trait}
                       variant="secondary"
-                      className="px-3 py-1 hover:scale-105 transition-transform cursor-default"
+                      className="px-3 py-1 hover:scale-105 transition-transform cursor-default text-xs sm:text-sm"
                     >
                       {trait}
                     </Badge>
@@ -237,17 +278,17 @@ export default function Portfolio() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20">
+      <section id="projects" className="py-16 sm:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">
               Featured <span className="text-primary">Projects</span>
             </h2>
-            <p className="text-center text-muted-foreground mb-12 text-lg">
+            <p className="text-center text-muted-foreground mb-8 sm:mb-12 text-base sm:text-lg px-4 sm:px-0">
               A showcase of my technical skills and problem-solving abilities
             </p>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               <ProjectCard
                 title="Distributed Task Scheduler"
                 description="A scalable microservices-based task scheduling system built with Node.js, Redis, and Docker. Features load balancing, fault tolerance, and real-time monitoring."
@@ -279,7 +320,7 @@ export default function Portfolio() {
               />
             </div>
 
-            <div className="text-center mt-12">
+            <div className="text-center mt-8 sm:mt-12">
               <Button variant="outline" size="lg" className="group bg-transparent hover-lift">
                 View All Projects
                 <Github className="ml-2 w-4 h-4 group-hover:scale-110 transition-transform" />
@@ -290,13 +331,15 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 bg-muted/30">
+      <section id="skills" className="py-16 sm:py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">
               Technical <span className="text-primary">Skills</span>
             </h2>
-            <p className="text-center text-muted-foreground mb-12 text-lg">Technologies and tools I work with</p>
+            <p className="text-center text-muted-foreground mb-8 sm:mb-12 text-base sm:text-lg px-4 sm:px-0">
+              Technologies and tools I work with
+            </p>
 
             <SkillsGrid />
           </div>
@@ -304,21 +347,21 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
+      <section id="contact" className="py-16 sm:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">
               Get In <span className="text-primary">Touch</span>
             </h2>
-            <p className="text-center text-muted-foreground mb-12 text-lg">
+            <p className="text-center text-muted-foreground mb-8 sm:mb-12 text-base sm:text-lg px-4 sm:px-0">
               Let's discuss opportunities, collaborations, or just connect!
             </p>
 
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-8">
+            <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+              <div className="space-y-6 sm:space-y-8">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                       <Mail className="w-5 h-5 text-primary" />
                       Email
                     </CardTitle>
@@ -326,7 +369,7 @@ export default function Portfolio() {
                   <CardContent>
                     <a
                       href="mailto:s70315@ocean.umt.edu.my"
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base break-all"
                     >
                       s70315@ocean.umt.edu.my
                     </a>
@@ -335,7 +378,7 @@ export default function Portfolio() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                       <Github className="w-5 h-5 text-primary" />
                       GitHub
                     </CardTitle>
@@ -345,7 +388,7 @@ export default function Portfolio() {
                       href="https://github.com/wmalfian"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base break-all"
                     >
                       github.com/wmalfian
                     </a>
@@ -354,7 +397,7 @@ export default function Portfolio() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                       <Linkedin className="w-5 h-5 text-primary" />
                       LinkedIn
                     </CardTitle>
@@ -364,7 +407,7 @@ export default function Portfolio() {
                       href="https://linkedin.com/in/wmalfian"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base break-all"
                     >
                       linkedin.com/in/wmalfian
                     </a>
@@ -379,9 +422,9 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8">
+      <footer className="border-t border-border py-6 sm:py-8">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-muted-foreground">© 2025 wmalfian Portfolio.</p>
+          <p className="text-muted-foreground text-sm sm:text-base">© 2025 wmalfian Portfolio.</p>
         </div>
       </footer>
     </div>
