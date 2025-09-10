@@ -153,9 +153,6 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <div className="inline-block p-3 sm:p-4 rounded-full bg-primary/10 mb-4 sm:mb-6 hover-lift">
-                <Code2 className="w-8 h-8 sm:w-12 sm:h-12 text-primary" />
-              </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-balance leading-tight">
                 Wan Mohd Alfian Bin Wan Azman
                 <span className="text-primary block">Student & Developer</span>
