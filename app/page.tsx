@@ -157,7 +157,7 @@ export default function Portfolio() {
                 <Code2 className="w-8 h-8 sm:w-12 sm:h-12 text-primary" />
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-balance leading-tight">
-                Computer Science
+                Wan Mohd Alfian Bin Wan Azman
                 <span className="text-primary block">Student & Developer</span>
               </h1>
               <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-8 text-pretty px-4 sm:px-0">
