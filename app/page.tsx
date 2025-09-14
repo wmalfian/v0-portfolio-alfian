@@ -185,7 +185,7 @@ export default function Portfolio() {
                 <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 p-1 hover-lift animate-scale-in">
                   <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
                     <img
-                      src="pic1.jpg"
+                      src="profile.png"
                       alt="Profile Picture"
                       className="w-full h-full object-cover rounded-full hover:scale-110 transition-transform duration-500"
                     />
