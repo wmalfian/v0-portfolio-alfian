@@ -6,10 +6,10 @@ To enable the contact form to send emails to s70315@ocean.umt.edu.my, you need t
 
 Add these to your Vercel project settings or `.env.local` file:
 
-\`\`\`
+```
 EMAIL_USER=your-gmail-address@gmail.com
 EMAIL_PASS=your-app-password
-\`\`\`
+```
 
 ## Gmail Setup Steps
 
