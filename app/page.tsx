@@ -22,6 +22,7 @@ import {
   Menu,
   X,
   Layout,
+  Smartphone, // Added Smartphone icon
 } from "lucide-react"
 
 export default function Portfolio() {
@@ -107,29 +108,38 @@ export default function Portfolio() {
     { id: "contact", label: "Contact" },
   ]
 
-  // --- UPDATE YOUR REAL PROJECTS HERE ---
+  // --- PROJECT TEMPLATES ---
   const projects = [
     {
       title: "Personal Portfolio",
       description:
-        "A modern, responsive portfolio website built with Next.js and Tailwind CSS to showcase my skills and projects. Features a working contact form and dark mode.",
+        "A modern, responsive portfolio website built with Next.js and Tailwind CSS. Features a working contact form, dark mode, and responsive design.",
       technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
-      githubUrl: "https://github.com/wmalfian/v0-portfolio-alfian", // Update if your repo name is different
-      liveUrl: "#", // Add your deployed link here (e.g., https://wmalfian.vercel.app)
+      githubUrl: "https://github.com/wmalfian/v0-portfolio-alfian",
+      liveUrl: "#", 
       icon: <Layout className="w-6 h-6" />,
-      imageUrl: "/placeholder.jpg", // Ensure this image exists in your public folder
+      imageUrl: "/placeholder.jpg",
     },
     {
-      title: "Your Project Name", // REPLACE THIS
+      title: "Web App Project",
       description:
-        "Replace this text with a description of your real project from GitHub. Explain what it does, the problem it solves, and the key features.",
-      technologies: ["Tech 1", "Tech 2", "Tech 3"], // REPLACE THESE
-      githubUrl: "https://github.com/wmalfian/YOUR-REPO-NAME", // REPLACE THIS
+        "A full-stack web application template. Replace this with your specific project details describing the problem solved and features implemented.",
+      technologies: ["React", "Node.js", "MongoDB", "Express"],
+      githubUrl: "https://github.com/wmalfian/YOUR-WEB-REPO",
       liveUrl: "#", 
-      icon: <Code2 className="w-6 h-6" />,
-      imageUrl: "/placeholder.jpg", // REPLACE with a screenshot of your project
+      icon: <Globe className="w-6 h-6" />,
+      imageUrl: "/placeholder.jpg",
     },
-    // Add more projects as needed...
+    {
+      title: "Mobile App Project",
+      description:
+        "A cross-platform mobile application built for iOS and Android. Features include real-time notifications, offline mode, and native device integration.",
+      technologies: ["React Native", "Expo", "Firebase", "TypeScript"],
+      githubUrl: "https://github.com/wmalfian/YOUR-MOBILE-REPO",
+      liveUrl: "#", // Link to App Store or Play Store
+      icon: <Smartphone className="w-6 h-6" />,
+      imageUrl: "/placeholder.jpg",
+    },
   ]
 
   return (
