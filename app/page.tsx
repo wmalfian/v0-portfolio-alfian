@@ -240,7 +240,7 @@ export default function Portfolio() {
               {[
                 { icon: Github, href: "https://github.com/wmalfian" },
                 { icon: Linkedin, href: "https://linkedin.com/in/wmalfian" },
-                { icon: Mail, href: "mailto:wmalfian@gmail.com" },
+                // Mail button removed
               ].map((social, index) => (
                 <Button
                   key={index}
@@ -252,8 +252,8 @@ export default function Portfolio() {
                 >
                   <a
                     href={social.href}
-                    target={social.href.startsWith("http") ? "_blank" : undefined}
-                    rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <social.icon className="w-5 h-5" />
                   </a>
