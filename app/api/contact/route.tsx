@@ -31,15 +31,6 @@ export async function POST(request: NextRequest) {
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.error("[v0] Missing email environment variables")
 
-      // Log the submission for reference
-      console.log("[v0] Contact form submission (env vars missing):", {
-        name: `${firstName} ${lastName}`,
-        email,
-        subject,
-        message,
-        timestamp: new Date().toISOString(),
-      })
-
       return NextResponse.json(
         {
           error: "Email service not configured. Please set EMAIL_USER and EMAIL_PASS environment variables.",
@@ -68,15 +59,6 @@ export async function POST(request: NextRequest) {
     } catch (verifyError) {
       console.error("[v0] Email transporter verification failed:", verifyError)
 
-      // Log the submission for reference
-      console.log("[v0] Contact form submission (verification failed):", {
-        name: `${firstName} ${lastName}`,
-        email,
-        subject,
-        message,
-        timestamp: new Date().toISOString(),
-      })
-
       return NextResponse.json(
         {
           error: "Email authentication failed. Please check your EMAIL_USER and EMAIL_PASS credentials.",
@@ -89,7 +71,7 @@ export async function POST(request: NextRequest) {
     // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "wmalfian@gmail.com",
+      to: "wmalfian@gmail.com", // This sends the email TO you
       replyTo: email,
       subject: `Portfolio Contact: ${subject}`,
       html: `
@@ -124,23 +106,12 @@ Sent from your portfolio website at ${new Date().toLocaleString()}
 
     console.log("[v0] Email sent successfully:", info.messageId)
 
-    // Log the message for backup
-    console.log("[v0] Contact form submission sent to wmalfian@gmail.com:", {
-      name: `${firstName} ${lastName}`,
-      email,
-      subject,
-      message,
-      timestamp: new Date().toISOString(),
-    })
-
     return NextResponse.json({ message: "Message sent successfully", success: true }, { status: 200 })
   } catch (error) {
     console.error("[v0] Contact form error:", error)
 
     let errorMessage = "Failed to send message"
     if (error instanceof Error) {
-      console.error("[v0] Error details:", error.message, error.stack)
-
       if (error.message.includes("Invalid login")) {
         errorMessage = "Email authentication failed. Please check your Gmail credentials and enable App Passwords."
       } else if (error.message.includes("Network")) {
