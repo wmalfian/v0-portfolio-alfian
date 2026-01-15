@@ -2,17 +2,23 @@ import { type NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
+    console.log("[v0] Contact API route called")
+
     const body = await request.json()
     const { firstName, lastName, email, subject, message } = body
 
+    console.log("[v0] Form data received:", { firstName, lastName, email, subject })
+
     // Validate required fields
     if (!firstName || !lastName || !email || !subject || !message) {
+      console.log("[v0] Validation failed: missing fields")
       return NextResponse.json({ error: "All fields are required" }, { status: 400 })
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
+      console.log("[v0] Validation failed: invalid email format")
       return NextResponse.json({ error: "Invalid email format" }, { status: 400 })
     }
 
@@ -24,17 +30,30 @@ export async function POST(request: NextRequest) {
     // Check if environment variables are set
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.error("[v0] Missing email environment variables")
+
+      // Log the submission for reference
+      console.log("[v0] Contact form submission (env vars missing):", {
+        name: `${firstName} ${lastName}`,
+        email,
+        subject,
+        message,
+        timestamp: new Date().toISOString(),
+      })
+
       return NextResponse.json(
         {
-          error: "Email service not configured. Please contact the administrator.",
+          error: "Email service not configured. Please set EMAIL_USER and EMAIL_PASS environment variables.",
+          fallback: true,
         },
         { status: 500 },
       )
     }
 
-    const nodemailer = require("nodemailer")
+    const nodemailer = await import("nodemailer")
 
-    const transporter = nodemailer.createTransporter({
+    console.log("[v0] Creating email transporter")
+
+    const transporter = nodemailer.default.createTransporter({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
@@ -43,13 +62,25 @@ export async function POST(request: NextRequest) {
     })
 
     try {
+      console.log("[v0] Verifying transporter...")
       await transporter.verify()
       console.log("[v0] Email transporter verified successfully")
     } catch (verifyError) {
       console.error("[v0] Email transporter verification failed:", verifyError)
+
+      // Log the submission for reference
+      console.log("[v0] Contact form submission (verification failed):", {
+        name: `${firstName} ${lastName}`,
+        email,
+        subject,
+        message,
+        timestamp: new Date().toISOString(),
+      })
+
       return NextResponse.json(
         {
-          error: "Email service configuration error. Please try again later.",
+          error: "Email authentication failed. Please check your EMAIL_USER and EMAIL_PASS credentials.",
+          fallback: true,
         },
         { status: 500 },
       )
@@ -59,6 +90,7 @@ export async function POST(request: NextRequest) {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: "s70315@ocean.umt.edu.my",
+      replyTo: email,
       subject: `Portfolio Contact: ${subject}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -70,6 +102,19 @@ export async function POST(request: NextRequest) {
         <hr>
         <p><small>Sent from your portfolio website at ${new Date().toLocaleString()}</small></p>
       `,
+      text: `
+New Contact Form Submission
+
+Name: ${firstName} ${lastName}
+Email: ${email}
+Subject: ${subject}
+
+Message:
+${message}
+
+---
+Sent from your portfolio website at ${new Date().toLocaleString()}
+      `,
     }
 
     console.log("[v0] Attempting to send email to s70315@ocean.umt.edu.my")
@@ -80,7 +125,7 @@ export async function POST(request: NextRequest) {
     console.log("[v0] Email sent successfully:", info.messageId)
 
     // Log the message for backup
-    console.log("Contact form submission sent to s70315@ocean.umt.edu.my:", {
+    console.log("[v0] Contact form submission sent to s70315@ocean.umt.edu.my:", {
       name: `${firstName} ${lastName}`,
       email,
       subject,
@@ -88,14 +133,16 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
     })
 
-    return NextResponse.json({ message: "Message sent successfully" }, { status: 200 })
+    return NextResponse.json({ message: "Message sent successfully", success: true }, { status: 200 })
   } catch (error) {
     console.error("[v0] Contact form error:", error)
 
     let errorMessage = "Failed to send message"
     if (error instanceof Error) {
+      console.error("[v0] Error details:", error.message, error.stack)
+
       if (error.message.includes("Invalid login")) {
-        errorMessage = "Email authentication failed. Please check configuration."
+        errorMessage = "Email authentication failed. Please check your Gmail credentials and enable App Passwords."
       } else if (error.message.includes("Network")) {
         errorMessage = "Network error. Please try again."
       } else {
@@ -103,6 +150,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ error: errorMessage }, { status: 500 })
+    return NextResponse.json({ error: errorMessage, fallback: true }, { status: 500 })
   }
 }

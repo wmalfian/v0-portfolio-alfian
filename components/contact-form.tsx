@@ -8,39 +8,73 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Send, CheckCircle } from "lucide-react"
+import { Send, CheckCircle, Mail } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    subject: "",
+    message: "",
+  })
   const { toast } = useToast()
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const openMailtoFallback = () => {
+    const mailtoLink = `mailto:s70315@ocean.umt.edu.my?subject=${encodeURIComponent(
+      `Portfolio Contact: ${formData.subject}`,
+    )}&body=${encodeURIComponent(
+      `Name: ${formData.firstName} ${formData.lastName}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
+    )}`
+    window.open(mailtoLink, "_blank")
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    try {
-      const formData = new FormData(e.currentTarget)
-      const data = {
-        firstName: formData.get("firstName") as string,
-        lastName: formData.get("lastName") as string,
-        email: formData.get("email") as string,
-        subject: formData.get("subject") as string,
-        message: formData.get("message") as string,
-      }
+    console.log("[v0] Submitting contact form...")
 
+    try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       })
 
+      console.log("[v0] Response status:", response.status)
+
+      const responseData = await response.json()
+      console.log("[v0] Response data:", responseData)
+
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to send message")
+        if (responseData.fallback) {
+          toast({
+            title: "Email service unavailable",
+            description: "Opening your default email client instead...",
+            variant: "destructive",
+          })
+
+          setTimeout(() => {
+            openMailtoFallback()
+          }, 1000)
+
+          throw new Error(responseData.error || "Failed to send message")
+        }
+
+        throw new Error(responseData.error || "Failed to send message")
       }
 
       setIsSubmitted(true)
@@ -52,10 +86,17 @@ export function ContactForm() {
       // Reset form after 3 seconds
       setTimeout(() => {
         setIsSubmitted(false)
-        const form = e.target as HTMLFormElement
-        form.reset()
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          subject: "",
+          message: "",
+        })
       }, 3000)
     } catch (error) {
+      console.error("[v0] Contact form submission error:", error)
+
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
@@ -90,42 +131,69 @@ export function ContactForm() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" name="firstName" required />
+                <Input
+                  id="firstName"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="lastName">Last Name</Label>
-                <Input id="lastName" name="lastName" required />
+                <Input id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" required />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="subject">Subject</Label>
-              <Input id="subject" name="subject" required />
+              <Input id="subject" name="subject" value={formData.subject} onChange={handleInputChange} required />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="message">Message</Label>
-              <Textarea id="message" name="message" rows={5} required className="resize-none" />
+              <Textarea
+                id="message"
+                name="message"
+                rows={5}
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                className="resize-none"
+              />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin mr-2" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  <Send className="w-4 h-4 mr-2" />
-                  Send Message
-                </>
-              )}
-            </Button>
+            <div className="flex gap-2">
+              <Button type="submit" className="flex-1" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin mr-2" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </Button>
+
+              <Button type="button" variant="outline" onClick={openMailtoFallback} title="Open in email client">
+                <Mail className="w-4 h-4" />
+              </Button>
+            </div>
           </form>
         )}
       </CardContent>
