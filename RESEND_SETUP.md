@@ -19,9 +19,9 @@ This portfolio uses Resend for sending contact form emails. Resend is a modern e
 
 #### For Local Development:
 Add to your `.env.local` file:
-```
+\`\`\`
 RESEND_API_KEY=re_your_api_key_here
-```
+\`\`\`
 
 #### For Production (Vercel):
 1. Go to your Vercel project settings
