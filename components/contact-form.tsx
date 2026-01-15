@@ -30,14 +30,23 @@ export function ContactForm() {
     }))
   }
 
-  // Updated: Now points to wmalfian@gmail.com
   const openMailtoFallback = () => {
     const mailtoLink = `mailto:wmalfian@gmail.com?subject=${encodeURIComponent(
       `Portfolio Contact: ${formData.subject}`,
     )}&body=${encodeURIComponent(
       `Name: ${formData.firstName} ${formData.lastName}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
     )}`
-    window.open(mailtoLink, "_blank")
+
+    // Try to open mailto link in same window
+    window.location.href = mailtoLink
+
+    // Show a toast to guide the user
+    setTimeout(() => {
+      toast({
+        title: "Opening email client",
+        description: "If your email client doesn't open, you can email me directly at wmalfian@gmail.com",
+      })
+    }, 500)
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
