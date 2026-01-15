@@ -240,7 +240,7 @@ export default function Portfolio() {
               {[
                 { icon: Github, href: "https://github.com/wmalfian" },
                 { icon: Linkedin, href: "https://linkedin.com/in/wmalfian" },
-                { icon: Mail, href: "mailto:s70315@ocean.umt.edu.my" },
+                { icon: Mail, href: "mailto:wmalfian@gmail.com" },
               ].map((social, index) => (
                 <Button
                   key={index}
@@ -505,8 +505,8 @@ export default function Portfolio() {
                   {
                     icon: Mail,
                     title: "Email",
-                    content: "s70315@ocean.umt.edu.my",
-                    href: "mailto:s70315@ocean.umt.edu.my",
+                    content: "wmalfian@gmail.com",
+                    href: "mailto:wmalfian@gmail.com",
                   },
                   {
                     icon: Github,
