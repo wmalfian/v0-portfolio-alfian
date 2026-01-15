@@ -21,6 +21,7 @@ import {
   Download,
   Menu,
   X,
+  Layout,
 } from "lucide-react"
 
 export default function Portfolio() {
@@ -104,6 +105,31 @@ export default function Portfolio() {
     { id: "projects", label: "Projects" },
     { id: "skills", label: "Skills" },
     { id: "contact", label: "Contact" },
+  ]
+
+  // --- UPDATE YOUR REAL PROJECTS HERE ---
+  const projects = [
+    {
+      title: "Personal Portfolio",
+      description:
+        "A modern, responsive portfolio website built with Next.js and Tailwind CSS to showcase my skills and projects. Features a working contact form and dark mode.",
+      technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+      githubUrl: "https://github.com/wmalfian/v0-portfolio-alfian", // Update if your repo name is different
+      liveUrl: "#", // Add your deployed link here (e.g., https://wmalfian.vercel.app)
+      icon: <Layout className="w-6 h-6" />,
+      imageUrl: "/placeholder.jpg", // Ensure this image exists in your public folder
+    },
+    {
+      title: "Your Project Name", // REPLACE THIS
+      description:
+        "Replace this text with a description of your real project from GitHub. Explain what it does, the problem it solves, and the key features.",
+      technologies: ["Tech 1", "Tech 2", "Tech 3"], // REPLACE THESE
+      githubUrl: "https://github.com/wmalfian/YOUR-REPO-NAME", // REPLACE THIS
+      liveUrl: "#", 
+      icon: <Code2 className="w-6 h-6" />,
+      imageUrl: "/placeholder.jpg", // REPLACE with a screenshot of your project
+    },
+    // Add more projects as needed...
   ]
 
   return (
@@ -223,18 +249,12 @@ export default function Portfolio() {
                 View My Work
                 <ExternalLink className="ml-2 w-4 h-4 group-hover:translate-x-1 group-hover:scale-110 transition-transform" />
               </Button>
-              
-              {/* UPDATED: Download Resume Button */}
               <Button
                 variant="outline"
                 size="lg"
                 className="group bg-transparent hover-lift w-full sm:w-auto hover:shadow-lg transition-all duration-300"
                 asChild
               >
-                {/* IMPORTANT: 
-                  1. Make sure you have a file named "resume.pdf" in your "public" folder.
-                  2. "download" attribute forces the browser to download instead of open.
-                */}
                 <a href="/resume.pdf" download="Wan_Mohd_Alfian_Resume.pdf">
                   <Download className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
                   Download Resume
@@ -388,32 +408,7 @@ export default function Portfolio() {
                 visibleElements.has("projects-grid") ? "animate-fade-in-up" : "opacity-0 translate-y-10"
               }`}
             >
-              {[
-                {
-                  title: "Distributed Task Scheduler",
-                  description:
-                    "A scalable microservices-based task scheduling system built with Node.js, Redis, and Docker. Features load balancing, fault tolerance, and real-time monitoring.",
-                  technologies: ["Node.js", "Redis", "Docker", "TypeScript"],
-                  icon: <Database className="w-6 h-6" />,
-                  imageUrl: "/distributed-system-architecture-diagram.jpg",
-                },
-                {
-                  title: "AI-Powered Code Reviewer",
-                  description:
-                    "Machine learning application that analyzes code quality, suggests improvements, and detects potential bugs using natural language processing.",
-                  technologies: ["Python", "TensorFlow", "FastAPI", "React"],
-                  icon: <Code2 className="w-6 h-6" />,
-                  imageUrl: "/ai-code-analysis-interface.jpg",
-                },
-                {
-                  title: "Real-time Collaboration Platform",
-                  description:
-                    "Full-stack web application enabling real-time document collaboration with operational transformation, WebSocket connections, and conflict resolution.",
-                  technologies: ["React", "Socket.io", "MongoDB", "Express"],
-                  icon: <Globe className="w-6 h-6" />,
-                  imageUrl: "/real-time-collaboration-interface.jpg",
-                },
-              ].map((project, index) => (
+              {projects.map((project, index) => (
                 <div
                   key={index}
                   className="animate-fade-in-up hover:scale-105 transition-all duration-500"
@@ -423,8 +418,8 @@ export default function Portfolio() {
                     title={project.title}
                     description={project.description}
                     technologies={project.technologies}
-                    githubUrl="#"
-                    liveUrl="#"
+                    githubUrl={project.githubUrl}
+                    liveUrl={project.liveUrl}
                     icon={project.icon}
                     imageUrl={project.imageUrl}
                   />
@@ -437,9 +432,12 @@ export default function Portfolio() {
                 variant="outline"
                 size="lg"
                 className="group bg-transparent hover-lift hover:shadow-lg transition-all duration-300"
+                asChild
               >
-                View All Projects
-                <Github className="ml-2 w-4 h-4 group-hover:scale-110 group-hover:rotate-12 transition-transform" />
+                <a href="https://github.com/wmalfian?tab=repositories" target="_blank" rel="noopener noreferrer">
+                  View All Projects
+                  <Github className="ml-2 w-4 h-4 group-hover:scale-110 group-hover:rotate-12 transition-transform" />
+                </a>
               </Button>
             </div>
           </div>
