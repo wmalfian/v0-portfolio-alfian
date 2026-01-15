@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "s70315@ocean.umt.edu.my",
+      to: "wmalfian@gmail.com",
       replyTo: email,
       subject: `Portfolio Contact: ${subject}`,
       html: `
@@ -117,7 +117,7 @@ Sent from your portfolio website at ${new Date().toLocaleString()}
       `,
     }
 
-    console.log("[v0] Attempting to send email to s70315@ocean.umt.edu.my")
+    console.log("[v0] Attempting to send email to wmalfian@gmail.com")
 
     // Send email
     const info = await transporter.sendMail(mailOptions)
@@ -125,7 +125,7 @@ Sent from your portfolio website at ${new Date().toLocaleString()}
     console.log("[v0] Email sent successfully:", info.messageId)
 
     // Log the message for backup
-    console.log("[v0] Contact form submission sent to s70315@ocean.umt.edu.my:", {
+    console.log("[v0] Contact form submission sent to wmalfian@gmail.com:", {
       name: `${firstName} ${lastName}`,
       email,
       subject,
