@@ -22,103 +22,72 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid email format" }, { status: 400 })
     }
 
-    console.log("[v0] Environment variables check:", {
-      EMAIL_USER: process.env.EMAIL_USER ? "Set" : "Missing",
-      EMAIL_PASS: process.env.EMAIL_PASS ? "Set" : "Missing",
-    })
+    const RESEND_API_KEY = process.env.RESEND_API_KEY
 
-    // Check if environment variables are set
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      console.error("[v0] Missing email environment variables")
-
+    if (!RESEND_API_KEY) {
+      console.error("[v0] Missing RESEND_API_KEY environment variable")
       return NextResponse.json(
         {
-          error: "Email service not configured. Please set EMAIL_USER and EMAIL_PASS environment variables.",
+          error: "Email service not configured. Opening email client as fallback.",
           fallback: true,
         },
         { status: 500 },
       )
     }
 
-    const nodemailer = await import("nodemailer")
-
-    console.log("[v0] Creating email transporter")
-
-    const transporter = nodemailer.default.createTransporter({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    })
+    console.log("[v0] Attempting to send email via Resend to wmalfian@gmail.com")
 
     try {
-      console.log("[v0] Verifying transporter...")
-      await transporter.verify()
-      console.log("[v0] Email transporter verified successfully")
-    } catch (verifyError) {
-      console.error("[v0] Email transporter verification failed:", verifyError)
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: "Portfolio Contact <onboarding@resend.dev>",
+          to: ["wmalfian@gmail.com"],
+          reply_to: email,
+          subject: `Portfolio Contact: ${subject}`,
+          html: `
+            <h2>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Message:</strong></p>
+            <p>${message.replace(/\n/g, "<br>")}</p>
+            <hr>
+            <p><small>Sent from your portfolio website at ${new Date().toLocaleString()}</small></p>
+          `,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error("[v0] Resend API error:", data)
+        throw new Error(data.message || "Failed to send email")
+      }
+
+      console.log("[v0] Email sent successfully via Resend:", data.id)
+      return NextResponse.json({ message: "Message sent successfully", success: true }, { status: 200 })
+    } catch (sendError) {
+      console.error("[v0] Email send failed:", sendError)
 
       return NextResponse.json(
         {
-          error: "Email authentication failed. Please check your EMAIL_USER and EMAIL_PASS credentials.",
+          error: "Unable to send email. Please use the email client option instead.",
           fallback: true,
         },
         { status: 500 },
       )
     }
-
-    // Email content
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: "wmalfian@gmail.com", // This sends the email TO you
-      replyTo: email,
-      subject: `Portfolio Contact: ${subject}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, "<br>")}</p>
-        <hr>
-        <p><small>Sent from your portfolio website at ${new Date().toLocaleString()}</small></p>
-      `,
-      text: `
-New Contact Form Submission
-
-Name: ${firstName} ${lastName}
-Email: ${email}
-Subject: ${subject}
-
-Message:
-${message}
-
----
-Sent from your portfolio website at ${new Date().toLocaleString()}
-      `,
-    }
-
-    console.log("[v0] Attempting to send email to wmalfian@gmail.com")
-
-    // Send email
-    const info = await transporter.sendMail(mailOptions)
-
-    console.log("[v0] Email sent successfully:", info.messageId)
-
-    return NextResponse.json({ message: "Message sent successfully", success: true }, { status: 200 })
   } catch (error) {
     console.error("[v0] Contact form error:", error)
 
     let errorMessage = "Failed to send message"
     if (error instanceof Error) {
-      if (error.message.includes("Invalid login")) {
-        errorMessage = "Email authentication failed. Please check your Gmail credentials and enable App Passwords."
-      } else if (error.message.includes("Network")) {
-        errorMessage = "Network error. Please try again."
-      } else {
-        errorMessage = error.message
-      }
+      errorMessage = error.message
     }
 
     return NextResponse.json({ error: errorMessage, fallback: true }, { status: 500 })

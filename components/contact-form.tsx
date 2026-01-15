@@ -30,7 +30,7 @@ export function ContactForm() {
     }))
   }
 
-  // UPDATED: Now points to wmalfian@gmail.com
+  // Updated: Now points to wmalfian@gmail.com
   const openMailtoFallback = () => {
     const mailtoLink = `mailto:wmalfian@gmail.com?subject=${encodeURIComponent(
       `Portfolio Contact: ${formData.subject}`,
