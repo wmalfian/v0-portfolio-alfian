@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Send, CheckCircle, Mail } from "lucide-react"
+import { Send, CheckCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 export function ContactForm() {
@@ -198,10 +198,6 @@ export function ContactForm() {
                     Send Message
                   </>
                 )}
-              </Button>
-
-              <Button type="button" variant="outline" onClick={openMailtoFallback} title="Open in email client">
-                <Mail className="w-4 h-4" />
               </Button>
             </div>
           </form>
