@@ -250,7 +250,11 @@ export default function Portfolio() {
                   asChild
                   style={{ animationDelay: `${1200 + index * 100}ms` }}
                 >
-                  <a href={social.href} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={social.href}
+                    target={social.href.startsWith("http") ? "_blank" : undefined}
+                    rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
                     <social.icon className="w-5 h-5" />
                   </a>
                 </Button>
