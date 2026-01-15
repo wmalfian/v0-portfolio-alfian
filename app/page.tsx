@@ -223,13 +223,22 @@ export default function Portfolio() {
                 View My Work
                 <ExternalLink className="ml-2 w-4 h-4 group-hover:translate-x-1 group-hover:scale-110 transition-transform" />
               </Button>
+              
+              {/* UPDATED: Download Resume Button */}
               <Button
                 variant="outline"
                 size="lg"
                 className="group bg-transparent hover-lift w-full sm:w-auto hover:shadow-lg transition-all duration-300"
+                asChild
               >
-                <Download className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
-                Download Resume
+                {/* IMPORTANT: 
+                  1. Make sure you have a file named "resume.pdf" in your "public" folder.
+                  2. "download" attribute forces the browser to download instead of open.
+                */}
+                <a href="/resume.pdf" download="Wan_Mohd_Alfian_Resume.pdf">
+                  <Download className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
+                  Download Resume
+                </a>
               </Button>
             </div>
 
@@ -240,7 +249,6 @@ export default function Portfolio() {
               {[
                 { icon: Github, href: "https://github.com/wmalfian" },
                 { icon: Linkedin, href: "https://linkedin.com/in/wmalfian" },
-                // Mail button removed
               ].map((social, index) => (
                 <Button
                   key={index}
