@@ -12,7 +12,7 @@ interface ProjectCardProps {
   liveUrl: string
   icon: ReactNode
   imageUrl?: string
-  isMobile?: boolean // Added optional prop
+  isMobile?: boolean
 }
 
 export function ProjectCard({
@@ -23,22 +23,35 @@ export function ProjectCard({
   liveUrl,
   icon,
   imageUrl,
-  isMobile = false, // Default to false
+  isMobile = false,
 }: ProjectCardProps) {
   return (
-    <Card className="group hover-lift overflow-hidden bg-card/50 backdrop-blur-sm border-border/50">
+    <Card className="group hover-lift overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 h-full flex flex-col">
       {imageUrl && (
-        <div className={`relative overflow-hidden h-48 ${isMobile ? "bg-muted/20" : ""}`}>
+        <div className={`relative overflow-hidden ${isMobile ? "h-96" : "h-48"}`}>
+          {/* BLURRED BACKGROUND FIX: Fills the "weird gap" with a blurred version of the image */}
+          {isMobile && (
+            <div className="absolute inset-0">
+              <img
+                src={imageUrl || "/placeholder.svg"}
+                alt=""
+                className="w-full h-full object-cover blur-xl opacity-50 scale-110"
+              />
+            </div>
+          )}
+
+          {/* Main Image */}
           <img
             src={imageUrl || "/placeholder.svg"}
             alt={title}
-            className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${
-              // If isMobile is true, use object-contain (fit). Otherwise use object-cover (fill)
-              isMobile ? "object-contain p-2" : "object-cover"
+            className={`relative z-10 w-full h-full transition-transform duration-500 group-hover:scale-105 ${
+              // Removed p-2 to maximize size
+              isMobile ? "object-contain" : "object-cover"
             }`}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute top-4 right-4 p-2 rounded-lg bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
+          <div className="absolute top-4 right-4 p-2 rounded-lg bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 z-20">
             {icon}
           </div>
         </div>
@@ -56,7 +69,7 @@ export function ProjectCard({
         <CardDescription className="text-base leading-relaxed">{description}</CardDescription>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 flex-grow flex flex-col justify-end">
         <div className="flex flex-wrap gap-2">
           {technologies.map((tech) => (
             <Badge
