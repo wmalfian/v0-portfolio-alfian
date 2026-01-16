@@ -126,10 +126,21 @@ export default function Portfolio() {
       description:
         "A comprehensive web-based vehicle rental management system. Includes separate dashboards for admins and customers, automated PDF receipt generation, payment processing, and cloud database integration.",
       technologies: ["Java (JSP & Servlets)", "MySQL", "Docker", "Railway (Cloud)", "iText PDF"],
-      githubUrl: "https://github.com/wmalfian/YOUR-WEB-REPO",
+      githubUrl: "https://github.com/wmalfian/CarRental.git",
       liveUrl: "#",
       icon: <Globe className="w-6 h-6" />,
       imageUrl: "/CarRental.png",
+      isMobile: false,
+    },
+    {
+      title: "Mouzee",
+      description:
+        "A responsive e-commerce showcase for high-performance gaming peripherals. Features a modern dark UI, dynamic product carousels, and responsive layouts designed with Bootstrap 5.",
+      technologies: ["HTML5", "CSS3", "Bootstrap 5", "JavaScript"],
+      githubUrl: "https://github.com/wmalfian/CarRental.git",
+      liveUrl: "https://wmalfian.github.io/mouzee/",
+      icon: <Globe className="w-6 h-6" />,
+      imageUrl: "/Mouzee.png",
       isMobile: false,
     },
     {
@@ -137,7 +148,7 @@ export default function Portfolio() {
       description:
         "A cross-platform sports matchmaking application connecting students and athletes. Features include real-time match hosting, Google Maps integration for venue location, Firebase authentication, and automated notifications.",
       technologies: ["Flutter", "Firebase", "Google Maps API", "Geolocator"],
-      githubUrl: "https://github.com/wmalfian/sportmatch_umt",
+      githubUrl: "https://github.com/wmalfian/sportmatch_umt.git",
       liveUrl: "#", 
       icon: <Smartphone className="w-6 h-6" />,
       imageUrl: "/sportmatch_umt.jpg",
@@ -148,7 +159,7 @@ export default function Portfolio() {
       description:
         "A native Android application for tracking medication adherence. Uses a local SQLite database to manage medication schedules, track history (Taken/Missed), and provide offline functionality for patients.",
       technologies: ["Android (Java)", "SQLite", "XML Layouts", "Gradle"],
-      githubUrl: "https://github.com/wmalfian/YOUR-MOBILE-REPO",
+      githubUrl: "https://github.com/wmalfian/Suriani_Clinic.git",
       liveUrl: "#", 
       icon: <Smartphone className="w-6 h-6" />,
       imageUrl: "/Suriani_Clinic.png",
