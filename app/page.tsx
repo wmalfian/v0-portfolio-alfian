@@ -118,7 +118,7 @@ export default function Portfolio() {
       githubUrl: "https://github.com/wmalfian/v0-portfolio-alfian",
       liveUrl: "#",
       icon: <Layout className="w-6 h-6" />,
-      imageUrl: "/placeholder.jpg",
+      imageUrl: "/portfolio.png",
       isMobile: false,
     },
     {
@@ -381,22 +381,20 @@ export default function Portfolio() {
                   className="text-base sm:text-lg text-muted-foreground leading-relaxed animate-fade-in-up"
                   style={{ animationDelay: "200ms" }}
                 >
-                  I'm a dedicated Computer Science student with a passion for solving complex problems through elegant
-                  code. My journey in programming started with curiosity and has evolved into a deep appreciation for
-                  software architecture, algorithms, and system design.
+                  I am a dedicated Computer Science student and developer with a strong foundation in both mobile and web technologies. 
+                  My passion lies in building versatile applications, utilizing languages like <span className="text-primary font-medium">Java, Dart, and Python</span> to create solutions that solve real-world problems.
                 </p>
 
                 <p
                   className="text-base sm:text-lg text-muted-foreground leading-relaxed animate-fade-in-up"
                   style={{ animationDelay: "400ms" }}
                 >
-                  Currently pursuing my degree while working on challenging projects that span full-stack development,
-                  machine learning, and distributed systems. I believe in writing clean, maintainable code and following
-                  industry best practices.
+                  From developing cross-platform mobile apps with <span className="text-primary font-medium">Flutter</span> to engineering robust backend systems using <span className="text-primary font-medium">Java Enterprise and MySQL</span>, I thrive on creating end-to-end solutions. 
+                  I focus on writing clean, efficient code and designing architectures that ensure scalability and performance.
                 </p>
 
                 <div className="flex flex-wrap gap-2 pt-4 animate-fade-in-up" style={{ animationDelay: "600ms" }}>
-                  {["Problem Solving", "System Design", "Clean Code", "Team Collaboration"].map((trait, index) => (
+                  {["Mobile Development", "Full Stack Web", "Database Design", "System Architecture"].map((trait, index) => (
                     <Badge
                       key={trait}
                       variant="secondary"
