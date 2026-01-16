@@ -132,7 +132,7 @@ export default function Portfolio() {
       imageUrl: "/CarRental.png",
       isMobile: false,
     },
-    {
+    {//update
       title: "Mouzee",
       description:
         "A responsive e-commerce showcase for high-performance gaming peripherals. Features a modern dark UI, dynamic product carousels, and responsive layouts designed with Bootstrap 5.",
