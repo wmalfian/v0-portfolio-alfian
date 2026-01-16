@@ -131,14 +131,14 @@ export default function Portfolio() {
       imageUrl: "/placeholder.jpg",
     },
     {
-      title: "Mobile App Project",
+      title: "SportMatch UMT",
       description:
         "A cross-platform mobile application built for iOS and Android. Features include real-time notifications, offline mode, and native device integration.",
       technologies: ["React Native", "Expo", "Firebase", "TypeScript"],
       githubUrl: "https://github.com/wmalfian/YOUR-MOBILE-REPO",
       liveUrl: "#", // Link to App Store or Play Store
       icon: <Smartphone className="w-6 h-6" />,
-      imageUrl: "/placeholder.jpg",
+      imageUrl: "/sportmatch_umt.jpg",
     },
   ]
 
