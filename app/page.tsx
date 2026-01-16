@@ -122,25 +122,36 @@ export default function Portfolio() {
       isMobile: false,
     },
     {
-      title: "Web App Project",
+      title: "CarRental",
       description:
-        "A full-stack web application template. Replace this with your specific project details describing the problem solved and features implemented.",
-      technologies: ["React", "Node.js", "MongoDB", "Express"],
+        "A comprehensive web-based vehicle rental management system. Includes separate dashboards for admins and customers, automated PDF receipt generation, payment processing, and cloud database integration.",
+      technologies: ["Java (JSP & Servlets)", "MySQL", "Docker", "Railway (Cloud)", "iText PDF"],
       githubUrl: "https://github.com/wmalfian/YOUR-WEB-REPO",
       liveUrl: "#",
       icon: <Globe className="w-6 h-6" />,
-      imageUrl: "/placeholder.jpg",
+      imageUrl: "/CarRental.png",
       isMobile: false,
     },
     {
       title: "SportMatch UMT",
       description:
-        "A cross-platform mobile application built for iOS and Android. Features include real-time notifications, offline mode, and native device integration.",
-      technologies: ["React Native", "Expo", "Firebase", "TypeScript"],
-      githubUrl: "https://github.com/wmalfian/YOUR-MOBILE-REPO",
+        "A cross-platform sports matchmaking application connecting students and athletes. Features include real-time match hosting, Google Maps integration for venue location, Firebase authentication, and automated notifications.",
+      technologies: ["Flutter", "Firebase", "Google Maps API", "Geolocator"],
+      githubUrl: "https://github.com/wmalfian/sportmatch_umt",
       liveUrl: "#", 
       icon: <Smartphone className="w-6 h-6" />,
       imageUrl: "/sportmatch_umt.jpg",
+      isMobile: true, // <--- ENABLED MOBILE MODE
+    },
+    {
+      title: "Suriani Clinic",
+      description:
+        "A native Android application for tracking medication adherence. Uses a local SQLite database to manage medication schedules, track history (Taken/Missed), and provide offline functionality for patients.",
+      technologies: ["Android (Java)", "SQLite", "XML Layouts", "Gradle"],
+      githubUrl: "https://github.com/wmalfian/YOUR-MOBILE-REPO",
+      liveUrl: "#", 
+      icon: <Smartphone className="w-6 h-6" />,
+      imageUrl: "/Suriani_Clinic.png",
       isMobile: true, // <--- ENABLED MOBILE MODE
     },
   ]
