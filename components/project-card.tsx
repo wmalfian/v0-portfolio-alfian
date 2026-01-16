@@ -12,6 +12,7 @@ interface ProjectCardProps {
   liveUrl: string
   icon: ReactNode
   imageUrl?: string
+  isMobile?: boolean // Added optional prop
 }
 
 export function ProjectCard({
@@ -22,15 +23,19 @@ export function ProjectCard({
   liveUrl,
   icon,
   imageUrl,
+  isMobile = false, // Default to false
 }: ProjectCardProps) {
   return (
     <Card className="group hover-lift overflow-hidden bg-card/50 backdrop-blur-sm border-border/50">
       {imageUrl && (
-        <div className="relative overflow-hidden h-48">
+        <div className={`relative overflow-hidden h-48 ${isMobile ? "bg-muted/20" : ""}`}>
           <img
             src={imageUrl || "/placeholder.svg"}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${
+              // If isMobile is true, use object-contain (fit). Otherwise use object-cover (fill)
+              isMobile ? "object-contain p-2" : "object-cover"
+            }`}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="absolute top-4 right-4 p-2 rounded-lg bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
@@ -65,13 +70,17 @@ export function ProjectCard({
         </div>
 
         <div className="flex gap-2 pt-2">
-          <Button variant="outline" size="sm" className="flex-1 group/btn bg-transparent hover:bg-primary/5">
-            <Github className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
-            Code
+          <Button variant="outline" size="sm" className="flex-1 group/btn bg-transparent hover:bg-primary/5" asChild>
+            <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+              <Github className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
+              Code
+            </a>
           </Button>
-          <Button size="sm" className="flex-1 group/btn hover:shadow-lg">
-            <ExternalLink className="w-4 h-4 mr-2 group-hover/btn:translate-x-0.5 transition-transform" />
-            Live Demo
+          <Button size="sm" className="flex-1 group/btn hover:shadow-lg" asChild>
+            <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="w-4 h-4 mr-2 group-hover/btn:translate-x-0.5 transition-transform" />
+              Live Demo
+            </a>
           </Button>
         </div>
       </CardContent>

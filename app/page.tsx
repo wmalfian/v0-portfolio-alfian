@@ -22,7 +22,7 @@ import {
   Menu,
   X,
   Layout,
-  Smartphone, // Added Smartphone icon
+  Smartphone,
 } from "lucide-react"
 
 export default function Portfolio() {
@@ -116,9 +116,10 @@ export default function Portfolio() {
         "A modern, responsive portfolio website built with Next.js and Tailwind CSS. Features a working contact form, dark mode, and responsive design.",
       technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
       githubUrl: "https://github.com/wmalfian/v0-portfolio-alfian",
-      liveUrl: "#", 
+      liveUrl: "#",
       icon: <Layout className="w-6 h-6" />,
       imageUrl: "/placeholder.jpg",
+      isMobile: false,
     },
     {
       title: "Web App Project",
@@ -126,9 +127,10 @@ export default function Portfolio() {
         "A full-stack web application template. Replace this with your specific project details describing the problem solved and features implemented.",
       technologies: ["React", "Node.js", "MongoDB", "Express"],
       githubUrl: "https://github.com/wmalfian/YOUR-WEB-REPO",
-      liveUrl: "#", 
+      liveUrl: "#",
       icon: <Globe className="w-6 h-6" />,
       imageUrl: "/placeholder.jpg",
+      isMobile: false,
     },
     {
       title: "SportMatch UMT",
@@ -136,9 +138,10 @@ export default function Portfolio() {
         "A cross-platform mobile application built for iOS and Android. Features include real-time notifications, offline mode, and native device integration.",
       technologies: ["React Native", "Expo", "Firebase", "TypeScript"],
       githubUrl: "https://github.com/wmalfian/YOUR-MOBILE-REPO",
-      liveUrl: "#", // Link to App Store or Play Store
+      liveUrl: "#", 
       icon: <Smartphone className="w-6 h-6" />,
       imageUrl: "/sportmatch_umt.jpg",
+      isMobile: true, // <--- ENABLED MOBILE MODE
     },
   ]
 
@@ -432,6 +435,7 @@ export default function Portfolio() {
                     liveUrl={project.liveUrl}
                     icon={project.icon}
                     imageUrl={project.imageUrl}
+                    isMobile={project.isMobile} // Pass the new prop here
                   />
                 </div>
               ))}
